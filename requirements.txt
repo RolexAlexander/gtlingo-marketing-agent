@@ -1,0 +1,4 @@
+strands-agents>=1.55.1
+google-genai>=2.23.0
+python-dotenv>=1.2.3
+requests>=2.34.2
