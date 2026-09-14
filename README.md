@@ -6,6 +6,10 @@ Not another app to check. This agent runs in the background, researches what's a
 
 Demo business: **[GTLingo](https://github.com/RolexAlexander/GTLingo)** — a real Rolex Alexander product, a Guyanese Creolese translation companion app. See [`marketing_agent/brand_profile.py`](marketing_agent/brand_profile.py) — this is swappable for any business, not hard-coded logic.
 
+## Architecture
+
+![Architecture diagram](assets/architecture.png)
+
 ## How it works
 
 ```
@@ -63,20 +67,23 @@ Mocks the network layer entirely and verifies the Facebook Graph API integration
 
 ## Model backend: Gemini today, Bedrock is the upgrade
 
-This build uses `strands.models.gemini.GeminiModel` so it's testable immediately with an existing Gemini API key. The hackathon's own judging notes that deploying via **Amazon Bedrock AgentCore strengthens the technical score** (optional, not required) -- swapping to `strands.models.bedrock.BedrockModel` is a one-line change in [`marketing_agent/agent.py`](marketing_agent/agent.py) once AWS credentials and Bedrock model access are set up. That setup (an AWS account, `aws configure`, requesting model access in the target region) is a real prerequisite this build doesn't assume — see [`docs/deploy-bedrock.md`](docs/deploy-bedrock.md) once written in the deepening pass.
+This build uses `strands.models.gemini.GeminiModel` so it's testable immediately with an existing Gemini API key. The hackathon's own judging notes that deploying via **Amazon Bedrock AgentCore strengthens the technical score** (optional, not required) -- swapping to `strands.models.bedrock.BedrockModel` is a one-line change in [`marketing_agent/agent.py`](marketing_agent/agent.py). Not done for this submission -- AWS/Bedrock model-access setup takes real time this submission's deadline didn't allow for, and a working Gemini-backed agent beats an unfinished Bedrock one. Documented here plainly rather than claimed as done.
 
-## What's built today vs. what's next
+## Real run
 
-**Built (light pass, day 1 of 3):**
-- Full autonomous cycle: real trend research, real content generation, real Facebook publishing (or honest staging), a founder-facing report.
-- Verified integrations: Google Search grounding syntax and the Facebook Graph API request shape, both checked against real documentation/SDK types before spending anything.
+See [`docs/final-demo-run.md`](docs/final-demo-run.md) for a full real, live end-to-end cycle -- real trend research, real generated content, correctly staged output, and the actual founder-facing report, including the generated image.
 
-**Next (deepening pass):**
+## What's built vs. what's next
+
+**Built:**
+- Full autonomous cycle, verified live: real trend research (Google Search grounding), real content generation (caption + generated image), real Facebook publishing capability (or honest staging when credentials aren't configured), a founder-facing report that includes the agent's own suggestion for the next cycle.
+- Verified integrations: Google Search grounding syntax and the Facebook Graph API request shape, both checked against real documentation/SDK types before spending anything, plus one full real run end to end.
+
+**Next:**
 - Instagram publishing (needs public image hosting -- e.g. a small Cloudflare R2/S3 bucket).
-- Swap to Bedrock/AgentCore once AWS access is set up, for the stronger technical score.
+- Swap to Bedrock/AgentCore for the stronger technical score, once there's time to set up AWS access properly.
 - True autonomy: scheduled/recurring cycles rather than one manual run, and a memory of past posts so the agent doesn't repeat content pillars or contradict earlier posts.
 - Real engagement-metric feedback (Graph API Insights) closing the loop on "what actually worked," not just "what got published."
-- Architecture diagram + demo video for submission.
 
 ## License
 
